@@ -37,6 +37,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net"]
 
+CSRF_TRUSTED_ORIGINS = ["https://8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net"]
 
 # Application definition
 
