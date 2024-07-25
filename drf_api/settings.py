@@ -12,11 +12,18 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-import re
 import dj_database_url
+from corsheaders.defaults import default_headers, default_methods
 
 if os.path.exists('env.py'):
     import env
+
+# THE FOLLOWING CODE IS FOR USING GITPOD
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+    ]
 
 CLOUDINARY_STORAGE = {
     "CLOUDINARY_URL": os.environ.get("CLOUDINARY_URL")
@@ -29,8 +36,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
+        # Session in development
         'rest_framework.authentication.SessionAuthentication'
         if 'DEV' in os.environ
+        # Tokens in production
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     )],
     'DEFAULT_PAGINATION_CLASS':
@@ -63,7 +72,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = ["8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net", "drf-api-moments.herokuapp.com"]
+ALLOWED_HOSTS = [
+    "8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net", 
+    "https://drf-api-moments-c2d4f3a26fc0.herokuapp.com"
+]
 
 CSRF_TRUSTED_ORIGINS = ["https://8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net"]
 
