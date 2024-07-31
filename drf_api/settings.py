@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 import re
 import dj_database_url
-from corsheaders.defaults import default_headers, default_methods
 
 if os.path.exists('env.py'):
     import env
@@ -67,7 +66,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    "8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net", 
+    "8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net",
     os.environ.get('ALLOWED_HOST'),
     'localhost',
 ]
@@ -77,16 +76,11 @@ if 'CLIENT_ORIGIN' in os.environ:
         os.environ.get('CLIENT_ORIGIN')
     ]
 
-# THE FOLLOWING CODE IS FOR USING GITPOD
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', 
-    os.environ.get('CLIENT_ORIGIN_DEV', ''), 
-    re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
-
-CSRF_TRUSTED_ORIGINS = ["https://8000-goidz-drfapi-kuaddd65714.ws.codeinstitute-ide.net"]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.codeinstitute-ide\.net$",
+    r"^https://.*\.gitpod\.io$",
+]
+CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com", "https://*.codeinstitute-ide.net"]
 
 # Application definition
 
